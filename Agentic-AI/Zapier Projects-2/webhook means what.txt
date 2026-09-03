@@ -1,0 +1,27 @@
+A webhook is an automated way for one system to tell another 
+system that something happened. 
+
+Our agent reads checkout failures and makes decisions:
+├─ HIGH severity? Send ALERT
+└─ LOW severity? Just LOG it
+
+The agent writes that decision to Google Sheets.
+But Google Sheets is just a database, nobody's watching it.
+
+webhook is how we tell the ops team 'Hey, a decision was made!
+
+Without webhook: Decision sits in a sheet, nobody knows
+With webhook: Decision is sent to the ops team instantly → they act fast
+
+
+A good prompt is one where nothing is assumed.
+
+Every question the agent might ask is already answered:
+
+What do I do? → Mission
+What data do I have?→ Inputs
+Have I done this before? → State
+Is this a problem?"→ Logic
+What do I write? → Outputs
+Who receives it? → Integration
+Does this really work? → Examples
