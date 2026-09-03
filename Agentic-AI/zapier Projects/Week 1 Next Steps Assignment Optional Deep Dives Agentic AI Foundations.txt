@@ -1,0 +1,47 @@
+Week 1 Next Steps: Assignment + Optional Deep Dives (Agentic AI Foundations)
+1 message
+Prithika K <prithika.k@interviewkickstart.com>	Tue, Jun 23, 2026 at 11:36 PM
+Cc: Deval Purohit <deval.purohit@interviewkickstart.com>, Srushith Kumar Donthoju <donthoju.srushith@interviewkickstart.com>
+Bcc: maheshzade2012@gmail.com
+Hey learners,
+
+Hope you enjoyed Week 1! You now have the core foundations to think beyond “chatbots” and toward agentic systems (systems that can take actions and follow decision logic).
+
+✅ Your Week 1 action plan (recommended) To reinforce what you learned, here’s what to do next:
+
+Revisit the class recording (focus on the agent workflow + how tools were used in the Zapier build)
+Hands-on practice (60–90 mins):
+Keep your prompts structured (clear goal, inputs, output format)
+When data is missing: don’t guess—log it or ask for clarification
+Build the assignment (below) and document your decisions clearly (what rules you used, what outputs you generated)
+🧩 Assignment: Checkout Incident Detection Agent Tasks to complete:
+
+Design a stateful system that processes incoming cart events, compares them with baseline metrics, and tracks progress using a stored timestamp to ensure only new data is handled.
+Apply business logic to classify each event, triggering high-severity alerts for critical issues (e.g., payment failures, high-value carts, abnormal patterns) and low-severity logs for minor incidents.
+Generate one structured command per decision and send it as a JSON payload via a webhook, while updating the state to maintain continuous, deduplicated processing.
+📚 Post-class resources (Optional deep dives) Use these if you want stronger fundamentals (or if anything felt fuzzy):
+
+LLMs overview
+LLM limitations → RAG motivation
+Transformers (bird’s eye)
+Hallucinations (why verification + tools matter)
+Agents: Tools + Memory + Planning + ReAct
+LangChain (optional framework)
+OpenAI Function Calling (tool calling mechanics)
+💡 Pro tip (high ROI): Keep a small “prompt + tool output” notebook. Each time something behaves oddly, log:
+
+what instruction caused it
+what output you got
+what you changed to fix it
+Need Help?
+Bring doubts to the Wednesday AMA Session (Wednesday sessions are optional Domain Technical Coaching Sessions, listed under the Xpert Connect → 1:N Domain section. You’ll need to register there to attend)
+
+Assignment solutions will be discussed during the Saturday Review session.
+
+You can also:
+
+Rewatch demos on Uplevel
+Raise a support ticket for technical issues
+Use Discord for peer discussion
+For any questions, concerns, or assistance regarding your live class schedule, classes not appearing on Uplevel, session links not working, or any other query apart from curriculum, please use the "Get Support" button on Uplevel to create a support ticket. Our operations team will assist you with it. Thanks!
+

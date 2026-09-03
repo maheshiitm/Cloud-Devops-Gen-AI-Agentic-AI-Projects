@@ -1,0 +1,24 @@
+
+Prithika K <prithika.k@interviewkickstart.com>
+Fri, Jun 19, 10:51 PM (7 hours ago)
+to Deval, Srushith, bcc: me
+
+Hey learners,
+
+Hope you’re doing well!
+
+As part of your Applied Agentic AI course, you will be working with Open AI API key. You should receive an API key in your email registered on Interview Kickstart's Uplevel after receiving this communication.
+
+**Please refrain from consuming your API key credits unnecessarily on other projects or work, as we have limited access to these credits during the course. We need these credits for you to use them for the projects completed in the live class and for solving the assignments in this course. ** 
+
+For now, simply check whether the key is working by following these steps. You can do this small step before the class, so that you are all set
+
+OpenAI API Key and Testing the Key {NEEDED FOR CLASS 1}
+You will receive a dedicated OpenAI API Key from Interview Kickstart at your registered email id. That key is going to be used throughout the program, so make sure you save it.
+
+✅ Before the session, make sure your API Key is working.
+Use the link below to test your API Key.
+
+→ ⁠https://trevorfox.com/api-key-tester/openai
+
+image.png

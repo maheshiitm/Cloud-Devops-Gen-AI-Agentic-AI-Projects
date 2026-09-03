@@ -1,0 +1,34 @@
+This is an optional resource and we strongly encourage learners to attempt this exercise before Class 1, as it will help you come a little more prepared. It’s completely okay if you’re unable to work on it—we will walk through and discuss the exercise after Week 1.
+
+
+
+Purpose: Introduce a real-world use case to help you apply key Agentic AI concepts before starting the course.
+
+
+
+Focus areas:
+
+Decision support
+Process automation
+Personalized recommendations
+
+
+Scenario: Explore how AI agents can analyze data, make decisions, and recommend actions to improve business processes and customer retention for a bank’s premium credit card customers.
+
+
+
+What you’ll do:
+
+Identify signals of at-risk customers
+Design a basic AI agent workflow
+Consider how to communicate and implement solutions
+
+
+Approach:
+
+A thought exercise — no coding required
+Focus on how generative AI systems work in practice and where human decision-making fits
+
+
+Goal: Spark curiosity and practical thinking about how AI can be used in your role.
+
