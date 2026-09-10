@@ -1,0 +1,25 @@
+# Secrets and local environment
+.env
+.env.*
+*.pem
+*.key
+credentials.json
+token.json
+oauth*.json
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs / local runtime
+*.log
+langflow_data/
