@@ -1,0 +1,22 @@
+# Final Submission Checklist
+
+- [x] Jira Scrum project created
+- [x] Stories and acceptance criteria created
+- [x] Story points and priorities assigned
+- [x] Sprint planning completed
+- [x] Sprint execution demonstrated
+- [x] Subtasks created
+- [x] Dependencies linked
+- [x] Risks documented
+- [x] Risk escalation comments added
+- [x] JQL practiced
+- [x] Saved filters created
+- [x] Burndown reviewed
+- [x] Sprint Report reviewed
+- [x] Delivery dashboard created
+- [x] Dashboard gadgets configured
+- [x] Final dashboard screenshot captured
+- [x] TPM interview Q&A included
+- [x] 70-page PPT prepared
+- [x] Evidence archive prepared
+- [x] GitHub README prepared
