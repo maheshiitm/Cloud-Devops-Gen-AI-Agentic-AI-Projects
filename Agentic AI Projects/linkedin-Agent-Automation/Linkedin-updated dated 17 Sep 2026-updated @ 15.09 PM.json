@@ -1,0 +1,141 @@
+{
+  "data": {
+    "edges": [],
+    "nodes": [
+      {
+        "data": {
+          "id": "CustomComponent-66W5i",
+          "node": {
+            "base_classes": [
+              "Text"
+            ],
+            "beta": false,
+            "conditional_paths": [],
+            "custom_fields": {},
+            "description": "Executive AI TPM Multi-Search Hunter (Pan-India).",
+            "display_name": "Autonomous Job Application Agent",
+            "documentation": "",
+            "edited": true,
+            "field_order": [
+              "openai_api_key"
+            ],
+            "frozen": false,
+            "icon": "bot",
+            "legacy": false,
+            "lf_version": "1.12.2",
+            "metadata": {
+              "code_hash": "660fb2b4d01a",
+              "dependencies": {
+                "dependencies": [
+                  {
+                    "name": "langflow",
+                    "version": "1.12.2"
+                  },
+                  {
+                    "name": "playwright",
+                    "version": "1.63.0"
+                  }
+                ],
+                "total_dependencies": 2
+              },
+              "module": "custom_components.autonomous_job_application_agent"
+            },
+            "minimized": false,
+            "output_types": [],
+            "outputs": [
+              {
+                "allows_loop": false,
+                "cache": true,
+                "display_name": "Execution Result",
+                "group_outputs": false,
+                "hidden": null,
+                "loop_types": null,
+                "method": "run_agent",
+                "name": "result",
+                "options": null,
+                "required_inputs": null,
+                "selected": "Text",
+                "tool_mode": true,
+                "types": [
+                  "Text"
+                ],
+                "value": "__UNDEFINED__"
+              }
+            ],
+            "pinned": false,
+            "template": {
+              "_type": "Component",
+              "code": {
+                "advanced": true,
+                "api_editable": false,
+                "dynamic": true,
+                "fileTypes": [],
+                "file_path": "",
+                "info": "",
+                "list": false,
+                "load_from_db": false,
+                "multiline": true,
+                "name": "code",
+                "password": false,
+                "placeholder": "",
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "type": "code",
+                "value": "from langflow.custom import Component\r\nfrom langflow.io import Output, SecretStrInput\r\nfrom playwright.async_api import async_playwright\r\nimport traceback\r\nimport os\r\nimport time\r\n\r\nos.environ['NO_PROXY'] = '127.0.0.1,localhost,::1'\r\n\r\nclass AutonomousJobApplicationAgent(Component):\r\n    display_name = \"Autonomous Job Application Agent\"\r\n    description = \"Executive AI TPM Multi-Search Hunter (Pan-India).\"\r\n    icon = \"bot\"\r\n\r\n    inputs = [\r\n        SecretStrInput(name=\"openai_api_key\", display_name=\"OpenAI API Key\", required=True),\r\n    ]\r\n\r\n    outputs = [\r\n        Output(display_name=\"Execution Result\", name=\"result\", method=\"run_agent\"),\r\n    ]\r\n\r\n    async def run_agent(self) -> str:\r\n        try:\r\n            start_time = time.time()\r\n            MAX_EXECUTION_TIME = 270 \r\n\r\n            cv_ai_tpm = r\"D:\\ai_job_agent\\CV_AI_TPM.pdf\"\r\n            cv_exec = r\"D:\\ai_job_agent\\CV_Executive_Management.pdf\"\r\n            cv_core = r\"D:\\ai_job_agent\\CV_Core_TPM.pdf\"\r\n\r\n            os.environ[\"OPENAI_API_KEY\"] = self.openai_api_key\r\n            persistent_dir = r\"D:\\ai_job_agent\\chrome_profile\"\r\n            os.makedirs(persistent_dir, exist_ok=True)\r\n            \r\n            applied_jobs = []\r\n            TARGET_APPLICATIONS_COUNT = 10 \r\n            processed_count = 0\r\n\r\n            # UPDATED: Broader executive queries. The bot will try them one by one.\r\n            search_queries = [\r\n                \"Director%20Program%20Manager%20AI\",\r\n                \"Head%20of%20AI\",\r\n                \"Principal%20Program%20Manager\",\r\n                \"VP%20Artificial%20Intelligence\",\r\n                \"Senior%20Technical%20Program%20Manager\"\r\n            ]\r\n\r\n            async with async_playwright() as p:\r\n                browser_context = await p.chromium.launch_persistent_context(\r\n                    user_data_dir=persistent_dir,\r\n                    headless=False,\r\n                    args=[\"--start-maximized\"],\r\n                    viewport=None\r\n                )\r\n                \r\n                page = browser_context.pages[0] if browser_context.pages else await browser_context.new_page()\r\n                \r\n                for query in search_queries:\r\n                    # Stop if we hit 10 apps or run out of time\r\n                    if processed_count >= TARGET_APPLICATIONS_COUNT or time.time() - start_time > MAX_EXECUTION_TIME:\r\n                        break\r\n\r\n                    print(f\"\\n--- Hunting for: {query.replace('%20', ' ')} ---\")\r\n                    await page.goto(f\"https://www.linkedin.com/jobs/search/?keywords={query}&location=India\")\r\n                    await page.wait_for_timeout(3000)\r\n\r\n                    if \"authwall\" in page.url or await page.locator(\"input#session_key\").first.is_visible():\r\n                        print(\"--> Authwall detected. Waiting 45 seconds for manual bypass if needed...\")\r\n                        await page.wait_for_timeout(45000)\r\n                        await page.goto(f\"https://www.linkedin.com/jobs/search/?keywords={query}&location=India\")\r\n                        await page.wait_for_timeout(3000)\r\n\r\n                    try:\r\n                        filter_btn = page.locator(\"button:has-text('Easy Apply')\").first\r\n                        if await filter_btn.is_visible():\r\n                            await filter_btn.click()\r\n                            await page.wait_for_timeout(2000)\r\n                    except Exception:\r\n                        pass\r\n\r\n                    for _ in range(4):\r\n                        await page.mouse.wheel(0, 1500)\r\n                        await page.wait_for_timeout(800)\r\n\r\n                    job_cards = page.locator(\".job-card-container__link, .base-card__full-link, div.job-card-container\").locator(\"visible=true\")\r\n                    total_cards = await job_cards.count()\r\n                    \r\n                    card_index = 0\r\n                    \r\n                    while processed_count < TARGET_APPLICATIONS_COUNT and card_index < total_cards:\r\n                        if time.time() - start_time > MAX_EXECUTION_TIME:\r\n                            break\r\n\r\n                        try:\r\n                            card = job_cards.nth(card_index)\r\n                            card_index += 1\r\n                            \r\n                            await card.scroll_into_view_if_needed()\r\n                            await card.click()\r\n                            await page.wait_for_timeout(1500)\r\n\r\n                            title_el = page.locator(\".job-details-jobs-unified-top-card__job-title h1, h2.t-24\").first\r\n                            job_title = await title_el.inner_text() if await title_el.count() > 0 else \"Target Role\"\r\n                            job_title_clean = job_title.strip()\r\n\r\n                            exclusion_list = [\"engineering manager\", \"software manager\", \"assistant\", \"supervisor\", \"junior\", \"associate\", \"intern\", \"analyst\"]\r\n                            if any(exclude in job_title_clean.lower() for exclude in exclusion_list):\r\n                                continue\r\n\r\n                            jd_el = page.locator(\"#job-details, .jobs-description__container\").first\r\n                            jd_text = await jd_el.inner_text() if await jd_el.count() > 0 else \"\"\r\n                            jd_lower = jd_text.lower()\r\n\r\n                            if any(kw in jd_lower for kw in [\"ai\", \"artificial intelligence\", \"generative ai\", \"llm\", \"machine learning\"]):\r\n                                selected_cv = cv_ai_tpm\r\n                                cv_type = \"AI TPM CV\"\r\n                            elif any(kw in jd_lower for kw in [\"vp\", \"director\", \"p&l\", \"c-level\", \"head of\"]):\r\n                                selected_cv = cv_exec\r\n                                cv_type = \"Executive Management CV\"\r\n                            else:\r\n                                selected_cv = cv_core\r\n                                cv_type = \"Core TPM CV\"\r\n\r\n                            easy_btn = page.locator(\"button.jobs-apply-button:has-text('Easy Apply')\").first\r\n                            if await easy_btn.is_visible():\r\n                                await easy_btn.click()\r\n                                await page.wait_for_timeout(1000)\r\n\r\n                                phone_input = page.locator(\"input[id*='phone'], input[name*='phone']\").first\r\n                                if await phone_input.is_visible():\r\n                                    await phone_input.fill(\"+918390801207\")\r\n\r\n                                file_input = page.locator(\"input[type='file']\")\r\n                                if await file_input.count() > 0 and os.path.exists(selected_cv):\r\n                                    await file_input.first.set_input_files(selected_cv)\r\n                                    await page.wait_for_timeout(1000)\r\n\r\n                                submitted = False\r\n                                for _ in range(6):\r\n                                    next_btn = page.locator(\"button:has-text('Submit application'), button:has-text('Review'), button:has-text('Next'), button:has-text('Submit')\").first\r\n                                    if await next_btn.is_visible():\r\n                                        b_text = await next_btn.inner_text()\r\n                                        await next_btn.click()\r\n                                        await page.wait_for_timeout(800)\r\n                                        if \"submit\" in b_text.lower():\r\n                                            submitted = True\r\n                                            break\r\n                                    else:\r\n                                        break\r\n\r\n                                if submitted:\r\n                                    applied_jobs.append(f\"{job_title_clean} (Used {cv_type})\")\r\n                                    processed_count += 1\r\n                                    print(f\"Success! Applied to: {job_title_clean}\")\r\n                            \r\n                            await page.wait_for_timeout(500)\r\n                        except Exception:\r\n                            continue\r\n\r\n                await browser_context.close()\r\n\r\n            if applied_jobs:\r\n                summary_str = \"\\n\".join([f\"{idx+1}. {j}\" for idx, j in enumerate(applied_jobs)])\r\n                return f\"Multi-Search Hunter successful! Applied to {len(applied_jobs)} roles:\\n\\n{summary_str}\"\r\n            \r\n            return \"Execution finished. Scanned multiple executive listings across India but found no new, unapplied Easy Apply positions.\"\r\n\r\n        except Exception as e:\r\n            return f\"CRITICAL ERROR:\\n{traceback.format_exc()}\""
+              },
+              "openai_api_key": {
+                "_input_type": "SecretStrInput",
+                "advanced": false,
+                "api_editable": false,
+                "display_name": "OpenAI API Key",
+                "dynamic": false,
+                "info": "",
+                "input_types": [],
+                "load_from_db": false,
+                "name": "openai_api_key",
+                "override_skip": false,
+                "password": true,
+                "placeholder": "",
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "track_in_telemetry": false,
+                "type": "str",
+                "value": ""
+              }
+            },
+            "tool_mode": false
+          },
+          "showNode": true,
+          "type": "AutonomousJobApplicationAgent"
+        },
+        "dragging": false,
+        "id": "CustomComponent-66W5i",
+        "measured": {
+          "height": 225,
+          "width": 320
+        },
+        "position": {
+          "x": 641,
+          "y": 262.4166666666667
+        },
+        "selected": true,
+        "type": "genericNode"
+      }
+    ],
+    "viewport": {
+      "x": -462,
+      "y": -260.33333333333337,
+      "zoom": 2
+    }
+  },
+  "description": "Empowering Communication, Enabling Opportunities.",
+  "endpoint_name": null,
+  "id": "e7fd07e3-60ec-4025-a44d-7ad36b8e9b23",
+  "is_component": false,
+  "last_tested_version": "1.12.2",
+  "locked": false,
+  "name": "Linkedin",
+  "tags": []
+}
