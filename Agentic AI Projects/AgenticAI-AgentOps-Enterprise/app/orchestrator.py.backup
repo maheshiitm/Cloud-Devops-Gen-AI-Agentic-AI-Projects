@@ -1,0 +1,101 @@
+import re
+from .models import Plan,Critique
+from .state import AgentState
+from .observability.tracing import span,emit_metric
+from .observability.audit import audit
+from .config import settings
+
+class Orchestrator:
+    def __init__(self,harness,context_engine):
+        self.harness=harness
+        self.context_engine=context_engine
+
+    def plan(self,state):
+        text=state.request.lower()
+        mutating=any(x in text for x in ["update ","change ","create ","delete ","modify "])
+        state.plan=Plan(
+            objective=state.request,
+            steps=["retrieve evidence","analyze","respond"],
+            requires_human_approval=mutating,
+            risk_level="high" if mutating else "low"
+        )
+        audit(state,"plan_created",risk=state.plan.risk_level)
+        return state
+
+    def retrieve(self,state):
+        return self.context_engine.build(state)
+
+    def execute_tools(self,state):
+        with span("tools.execute",trace_id=state.trace_id):
+            if not self.harness.can_continue_tools(state):
+                audit(state,"tool_budget_exceeded")
+                return state
+            text=state.request.lower()
+            tool=self.harness.registry.get("project_lookup")
+            args={}
+            m=re.search(r"(P\d{4})",state.request,re.I)
+            if m:
+                args["project_id"]=m.group(1).upper()
+            else:
+                for name in ["Cloud Migration","AI SupportDesk","Customer Portal"]:
+                    if name.lower() in text:
+                        args["name"]=name
+                        break
+            if tool:
+                d=self.harness.policy.authorize(tool,None)
+                if d.allowed:
+                    state.tool_results.append({
+                        "tool":tool.spec.name,
+                        "arguments":args,
+                        "result":tool.run(args)
+                    })
+                    state.tool_calls+=1
+                    audit(state,"tool_call",tool=tool.spec.name,allowed=True)
+                else:
+                    audit(state,"tool_call",tool=tool.spec.name,allowed=False,reason=d.reason)
+        return state
+
+    def critique(self,state):
+        if state.tool_results:
+            state.critique=Critique(passed=True,score=.9)
+        else:
+            state.critique=Critique(passed=False,score=.3,
+                                    issues=["No structured evidence retrieved."])
+        audit(state,"critique",passed=state.critique.passed,score=state.critique.score)
+        return state
+
+    def repair(self,state):
+        state.revision_count+=1
+        audit(state,"repair_loop",revision=state.revision_count)
+        return self.execute_tools(state)
+
+    def finalize(self,state):
+        if state.plan.requires_human_approval and not state.approved:
+            state.awaiting_human=True
+            state.answer="Human approval is required before this mutating request can proceed."
+            return state
+        if state.tool_results:
+            state.answer=f"Grounded project evidence: {state.tool_results[0]['result']}"
+        else:
+            state.answer="I could not find sufficient structured evidence to answer safely."
+        d=self.harness.policy.output_guardrail(state.answer)
+        if not d.allowed:
+            state.answer="Response blocked by output guardrail."
+        self.harness.memory.add(
+            state.user_id,"episodic",state.answer,
+            {"trace_id":state.trace_id,"revisions":state.revision_count}
+        )
+        audit(state,"finalized",awaiting_human=state.awaiting_human)
+        emit_metric("agent.completed",1,trace_id=state.trace_id)
+        return state
+
+    def run(self,state):
+        self.harness.intake(state)
+        self.plan(state)
+        self.retrieve(state)
+        self.execute_tools(state)
+        self.critique(state)
+        while not state.critique.passed and state.revision_count<settings.max_revisions:
+            self.repair(state)
+            self.critique(state)
+        return self.finalize(state)

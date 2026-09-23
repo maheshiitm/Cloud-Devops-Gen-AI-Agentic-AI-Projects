@@ -1,0 +1,9 @@
+from abc import ABC, abstractmethod
+
+class MemoryStore(ABC):
+    @abstractmethod
+    def add(self, user_id, memory_type, content, metadata=None): ...
+    @abstractmethod
+    def search(self, user_id, query, limit=5): ...
+    @abstractmethod
+    def get_recent(self, user_id, limit=10): ...

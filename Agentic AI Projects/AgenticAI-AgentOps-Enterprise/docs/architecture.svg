@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="620">
+<rect width="100%" height="100%" fill="white"/>
+<g font-family="Arial" font-size="20" text-anchor="middle" fill="#111">
+<text x="500" y="35" font-size="28">Agentic AI AgentOps Architecture</text>
+<rect x="350" y="60" width="300" height="55" fill="#e8eefc" stroke="#222"/><text x="500" y="95">User / API</text>
+<rect x="270" y="145" width="460" height="65" fill="#f5e8c8" stroke="#222"/><text x="500" y="183">Agent Harness: Policy • Budget • State • Audit</text>
+<rect x="70" y="250" width="250" height="70" fill="#e8f5e9" stroke="#222"/><text x="195" y="292">Context Engineering</text>
+<rect x="375" y="250" width="250" height="70" fill="#fce4ec" stroke="#222"/><text x="500" y="292">Orchestrator + Loops</text>
+<rect x="680" y="250" width="250" height="70" fill="#e3f2fd" stroke="#222"/><text x="805" y="292">Guardrails + Permissions</text>
+<rect x="70" y="390" width="250" height="70" fill="#fff3e0" stroke="#222"/><text x="195" y="432">Memory</text>
+<rect x="375" y="390" width="250" height="70" fill="#ede7f6" stroke="#222"/><text x="500" y="432">Tool Registry</text>
+<rect x="680" y="390" width="250" height="70" fill="#e0f2f1" stroke="#222"/><text x="805" y="432">Human Approval</text>
+<rect x="270" y="520" width="460" height="65" fill="#f1f8e9" stroke="#222"/><text x="500" y="558">Observability + Deep Evaluation</text>
+<g stroke="#555" stroke-width="3">
+<path d="M500 115v30M420 210l-225 40M500 210v40M580 210l225 40M195 320v70M500 320v70M805 320v70M500 460v60"/>
+</g></g></svg>

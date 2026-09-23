@@ -1,0 +1,5 @@
+[
+{"id":"P1001","name":"Cloud Migration","status":"At Risk","owner":"Platform Engineering","risk":"Database migration dependency","milestone":"Wave 2","progress":62},
+{"id":"P1002","name":"AI SupportDesk","status":"On Track","owner":"AI Platform","risk":"Evaluation dataset coverage","milestone":"Pilot","progress":78},
+{"id":"P1003","name":"Customer Portal","status":"Delayed","owner":"Digital Engineering","risk":"External API dependency","milestone":"Release","progress":49}
+]
