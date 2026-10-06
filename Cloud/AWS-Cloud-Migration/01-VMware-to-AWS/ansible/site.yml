@@ -1,0 +1,34 @@
+﻿---
+- name: Configure migrated AWS application servers
+  hosts: aws
+  become: true
+
+  tasks:
+    - name: Install required packages
+      ansible.builtin.package:
+        name:
+          - httpd
+          - git
+        state: present
+
+    - name: Enable and start Apache
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Deploy migration validation page
+      ansible.builtin.copy:
+        dest: /var/www/html/index.html
+        mode: "0644"
+        content: |
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>VMware to AWS Migration</title>
+          </head>
+          <body>
+            <h1>VMware to AWS Migration Successful</h1>
+            <p>Application server configured by Ansible.</p>
+          </body>
+          </html>
