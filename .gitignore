@@ -1,0 +1,27 @@
+﻿# Terraform generated files
+**/.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+# Terraform variable files containing secrets
+*.tfvars
+*.tfvars.json
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Private keys
+*.pem
+*.key
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
