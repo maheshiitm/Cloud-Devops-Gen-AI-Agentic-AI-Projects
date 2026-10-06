@@ -1,0 +1,37 @@
+﻿name: AWS Migration CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Format Check
+        working-directory: terraform
+        run: terraform fmt -check
+
+      - name: Terraform Init
+        working-directory: terraform
+        run: terraform init -backend=false
+
+      - name: Terraform Validate
+        working-directory: terraform
+        run: terraform validate
+
+      - name: Validate Kubernetes YAML
+        run: |
+          for file in kubernetes/*.yaml; do
+            echo "Checking $file"
+            python -c "import yaml,sys; yaml.safe_load(open(sys.argv[1])); print('OK')" "$file"
+          done
