@@ -1,0 +1,21 @@
+# Azure Kubernetes Deployment
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: migration-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: migration-app
+  template:
+    metadata:
+      labels:
+        app: migration-app
+    spec:
+      containers:
+      - name: migration-app
+        image: nginx:alpine
+        ports:
+        - containerPort: 80

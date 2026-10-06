@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Terraform Validate') {
+            steps {
+                dir('terraform') {
+                    sh 'terraform init -backend=false'
+                    sh 'terraform fmt -check'
+                    sh 'terraform validate'
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Build Azure migration application'
+            }
+        }
+    }
+}

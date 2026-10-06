@@ -1,0 +1,5 @@
+[web]
+azure-vm ansible_host=YOUR_AZURE_VM_IP ansible_user=azureuser
+
+[web:vars]
+ansible_ssh_private_key_file=~/.ssh/azure_vm

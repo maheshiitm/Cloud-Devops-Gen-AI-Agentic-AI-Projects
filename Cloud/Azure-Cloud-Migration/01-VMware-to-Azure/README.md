@@ -1,41 +1,35 @@
-﻿# 01-VMware-to-Azure
+# VMware to Azure Migration
 
-## Cloud Migration Project
+Enterprise VMware-to-Microsoft Azure migration reference implementation.
 
-This project demonstrates an enterprise cloud migration architecture using Infrastructure as Code, configuration management, containerization, Kubernetes and CI/CD automation.
+## Architecture
+VMware workloads are assessed, migrated to Azure Virtual Machines and/or AKS using Infrastructure as Code, configuration management, containers and CI/CD.
 
 ## Technology Stack
-
+- Microsoft Azure
+- Azure Virtual Machines
+- Azure Virtual Network
+- Azure Load Balancer
+- Azure Storage
+- Azure Kubernetes Service (AKS)
 - Terraform
 - Ansible
 - Docker
 - Kubernetes
 - Jenkins
 - GitHub Actions
-- Cloud Infrastructure
-- Monitoring and Observability
-- Security and Governance
+- Azure Monitor
 
-## Project Status
+## Migration Phases
+1. Discovery and assessment
+2. Landing zone preparation
+3. Network and security configuration
+4. VM/application migration
+5. Containerization where applicable
+6. Testing
+7. Cutover
+8. Monitoring and optimization
+9. Rollback if required
 
-Architecture and implementation in progress.
-
-## Repository Structure
-
-- architecture/
-- terraform/
-- ansible/
-- docker/
-- kubernetes/
-- jenkins/
-- .github/workflows/
-- scripts/
-- migration/
-- security/
-- monitoring/
-- cost-analysis/
-- docs/
-
-## Important Note
-
-This repository is an independently developed portfolio implementation for learning and demonstration purposes.
+## Project Structure
+See architecture, migration, Terraform, Ansible, Docker, Kubernetes, monitoring and security directories.
