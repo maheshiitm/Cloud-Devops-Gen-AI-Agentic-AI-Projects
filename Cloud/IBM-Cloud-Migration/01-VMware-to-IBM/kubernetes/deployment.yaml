@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ibm-migration-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ibm-migration-app
+  template:
+    metadata:
+      labels:
+        app: ibm-migration-app
+    spec:
+      containers:
+        - name: application
+          image: nginx:alpine
+          ports:
+            - containerPort: 80

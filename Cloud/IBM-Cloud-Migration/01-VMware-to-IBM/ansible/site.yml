@@ -1,0 +1,15 @@
+- name: Configure IBM Cloud migrated servers
+  hosts: migrated_servers
+  become: true
+
+  tasks:
+    - name: Install Docker
+      package:
+        name: docker
+        state: present
+
+    - name: Start Docker
+      service:
+        name: docker
+        state: started
+        enabled: true

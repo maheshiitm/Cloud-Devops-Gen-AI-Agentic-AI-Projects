@@ -1,0 +1,3 @@
+project_name = 'vmware-migration'
+region = 'us-south'
+zone = 'us-south-1'

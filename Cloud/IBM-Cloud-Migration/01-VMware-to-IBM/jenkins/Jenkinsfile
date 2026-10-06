@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Validate') {
+            steps {
+                echo 'Validating IBM Cloud migration project'
+            }
+        }
+        stage('Build') {
+            steps {
+                echo 'Building application container'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying to IBM Cloud / IKS'
+            }
+        }
+    }
+}

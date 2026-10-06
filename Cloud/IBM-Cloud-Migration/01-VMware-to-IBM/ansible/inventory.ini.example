@@ -1,0 +1,5 @@
+[migrated_servers]
+server1 ansible_host=192.0.2.10
+
+[migrated_servers:vars]
+ansible_user=cloudadmin
