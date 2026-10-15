@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce AI Support Copilot</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; display: flex; height: 100vh; }
+        .chat-container { width: 60%; padding: 20px; background: white; border-right: 2px solid #e0e0e0; display: flex; flex-direction: column; }
+        .copilot-container { width: 40%; padding: 20px; background: #fafafa; display: flex; flex-direction: column; }
+        .header { font-size: 1.2rem; font-weight: bold; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #ddd; }
+        .message { padding: 15px; border-radius: 8px; margin-bottom: 15px; max-width: 80%; }
+        .customer { background: #e3f2fd; align-self: flex-start; }
+        .agent { background: #e8f5e9; align-self: flex-end; }
+        .ai-draft { background: #fff3e0; border: 1px solid #ffe0b2; padding: 15px; border-radius: 8px; font-size: 0.95rem; line-height: 1.5; }
+        .badge { display: inline-block; padding: 4px 8px; background: #e0f7fa; color: #006064; border-radius: 4px; font-size: 0.8rem; font-weight: bold; margin-bottom: 10px; }
+        .btn-group { display: flex; gap: 10px; margin-top: 15px; }
+        button { padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .btn-approve { background: #4caf50; color: white; }
+        .btn-edit { background: #2196f3; color: white; }
+        .context-box { font-size: 0.85rem; color: #555; background: #eeeeee; padding: 10px; border-radius: 5px; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <!-- Agent CRM View -->
+    <div class="chat-container">
+        <div class="header">Live Chat: Sarah Jenkins (VIP Customer)</div>
+        <div class="message customer">
+            <strong>Sarah:</strong> Hi, I ordered the espresso machine last week but it hasn't arrived. If it's delayed much longer I want to cancel and get a refund.
+        </div>
+        <div class="message agent" style="display: none;" id="sentMessage"></div>
+    </div>
+
+    <!-- AI Copilot Panel -->
+    <div class="copilot-container">
+        <div class="header">✨ AI Support Copilot</div>
+        
+        <div class="context-box">
+            <strong>🔍 RAG Context Retrieved:</strong><br>
+            - Intent: Order Status / Refund Threat<br>
+            - Order ID: #ORD-99382 (Status: Delayed in transit)<br>
+            - Policy: VIP customers eligible for full refund + $25 credit for delays over 3 days.
+        </div>
+
+        <div class="badge">Suggested Draft (98% Confidence)</div>
+        <div class="ai-draft" id="draftText">
+            Hi Sarah, I sincerely apologize for the delay with your espresso machine (Order #ORD-99382). I checked the tracking and it is currently delayed in transit. Because you are a valued VIP customer, if you wish to cancel now, I can process a full refund immediately and issue a $25 store credit for the inconvenience. Would you like me to process that cancellation?
+        </div>
+
+        <div class="btn-group">
+            <button class="btn-approve" onclick="approveDraft()">Approve & Send</button>
+            <button class="btn-edit">Edit Draft</button>
+        </div>
+    </div>
+
+    <script>
+        function approveDraft() {
+            document.getElementById('sentMessage').style.display = 'block';
+            document.getElementById('sentMessage').innerHTML = '<strong>You:</strong> ' + document.getElementById('draftText').innerText;
+            document.querySelector('.ai-draft').style.opacity = '0.5';
+        }
+    </script>
+</body>
+</html>
